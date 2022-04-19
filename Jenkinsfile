@@ -7,7 +7,8 @@ pipeline {
     }
 
     parameters{
-        string(name: 'myvar2', defaultValue: 'zxc123', description: 'Descr') 
+        string(name: 'app_name', defaultValue: 'app_test', description: 'Name of repository for application')
+        string(name: 'app_file', defaultValue: 'app_script.sh', description: 'The name of the application file to be called') 
     }
 
     stages {
@@ -18,22 +19,42 @@ pipeline {
             }
         }
 
-        stage('Test') {
+        stage('Pre-build steps') {
             steps {
-                echo "testing your code"
+                echo "Prepare Env:"
+                echo "- Installing OS packeges"
+                echo "- Creating directories and etc"
             }
         }
 
         stage('Build') {
-            parallel {
-                stage('Version1') {
+            steps {
+                dir("${app_name}") {
+                    git branch: 'main',
+                        // credentialsId: 'token from Jenkins key manager'
+                        url: 'https://github.com/ch1pp00/app_test.git'
+                }
+                sh "ls ${WORKSPACE}"
+                sh "ls ${WORKSPACE}/${app_name}"
+                sh "chmod u+x ${WORKSPACE}/${app_name}/${app_file}"
+                sh '''
+                echo "Run code"
+                ${WORKSPACE}/${app_name}/${app_file}
+                '''
+            }
+        }
+
+        stage('Build tests'){
+            parallel{
+                stage('Tests 1') {
                     steps {
-                        echo "building version 1"
+                        echo "Test 1 Run"
                     }
                 }
-                stage('Version2') {
+
+                stage('Test 2') {
                     steps {
-                        echo "building version 2"
+                        echo "Test 2 Run"
                     }
                 }
             }
@@ -41,27 +62,37 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                sh 'echo "approval required"'
-                sh 'echo "deploying your code"'
+                sh 'echo "Create docker container"'
+                sh 'echo "Start container"'
             }
         }
 
-        stage('Postbuild steps'){
+        stage('Deploy tests'){
             parallel{
-                stage('Test Var') {
+                stage('Tests 1') {
                     steps {
-                        sh 'echo "My var - ${myvar2}"'
+                        echo "Test 1 Run"
                     }
                 }
-                stage('Test files') {
+
+                stage('Test 2') {
                     steps {
-                        sh '''
-                        touch 2.txt
-                        ls -l
-                        '''
+                        echo "Test 2 Run"
                     }
                 }
             }
+        }
+    }
+
+    post {
+        success {
+            echo 'whole pipeline successful'
+            echo 'Additional steps in case of job success'
+        }
+
+        failure {
+            echo 'pipeline failed, at least one step failed'
+            echo 'Additional steps in case of job failure'
         }
     }
 }
