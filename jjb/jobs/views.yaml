@@ -1,0 +1,7 @@
+- view:
+    name: myview
+    view-type: list
+
+# - view:
+#     name: myview2
+#     view-type: list

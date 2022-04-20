@@ -82,6 +82,14 @@ pipeline {
                 }
             }
         }
+        
+        stage ('Starting another Jenkins job') {
+            steps {
+                build job: 'job1', parameters: [
+                string(name: 'var1', value: "Man")
+                ]
+            }
+        }
     }
 
     post {

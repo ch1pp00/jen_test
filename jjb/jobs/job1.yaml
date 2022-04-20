@@ -1,0 +1,24 @@
+- job:
+    name: job1-tmp
+    project-type: pipeline
+    defaults: global
+    parameters:
+      - string:
+          name: app_name
+          default: app_test
+          description: |
+            Name of repository for application
+      - string:
+          name: app_file
+          default: app_script.sh
+          description: |
+            The name of the application file to be called
+
+    sandbox: true
+    pipeline-scm:
+      scm:
+        - hg:
+            url: https://github.com/ch1pp00/jen_test.git
+            clean: true
+      script-path: Jenkinsfile
+      lightweight-checkout: true
