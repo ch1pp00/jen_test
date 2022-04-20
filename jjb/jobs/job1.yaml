@@ -1,5 +1,5 @@
 - job:
-    name: job1-tmp
+    name: job1
     project-type: pipeline
     defaults: global
     parameters:
@@ -17,8 +17,9 @@
     sandbox: true
     pipeline-scm:
       scm:
-        - hg:
+        - git:
             url: https://github.com/ch1pp00/jen_test.git
-            clean: true
+            branches:
+              - origin/main
       script-path: Jenkinsfile
       lightweight-checkout: true
