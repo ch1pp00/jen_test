@@ -11,7 +11,7 @@ pipeline {
     //     string(name: 'app_name', defaultValue: '{{app_name}}', description: 'Name of repository for application')
     //     string(name: 'app_file', defaultValue: '{{app_file}}', description: 'The name of the application file to be called') 
     //     string(name: 'git_url', defaultValue: '{{git_url}}', description: '')
-    //     string(name: 'git_branch', defaultValue: '{{build_branch}}', description: '')
+    //     string(name: 'app_build_branch', defaultValue: '{{build_branch}}', description: '')
     // }
 
     stages {
@@ -33,7 +33,7 @@ pipeline {
         stage('Build') {
             steps {
                 dir("{{app_name}}") {
-                    git branch: "${build_branch}",
+                    git branch: "${app_build_branch}",
                         // credentialsId: 'token from Jenkins key manager'
                         url: "{{git_url}}"
                 }
