@@ -23,8 +23,8 @@
     pipeline-scm:
       scm:
         - git:
-            url: https://github.com/ch1pp00/app_test.git
+            url: https://github.com/ch1pp00/jen_test
             branches:
-              - origin/${app_build_branch}
+              - origin/main
       script-path: ./jjb/jenkinsfiles/../jenkinsfiles/Jenkinsfile_app1_build
       lightweight-checkout: true

@@ -1,7 +1,11 @@
 - view:
-    name: myview
+    name: build
     view-type: list
 
-# - view:
-#     name: myview2
-#     view-type: list
+- view:
+    name: hotfix
+    view-type: list
+
+- view:
+    name: promote
+    view-type: list
