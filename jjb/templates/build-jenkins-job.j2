@@ -1,0 +1,30 @@
+- job:
+    name: {{app_name}}_build
+    project-type: pipeline
+    defaults: global
+    parameters:
+    #   - string:
+    #       name: app_name
+    #       default: app_test
+    #       description: |
+    #         Name of repository for application
+    #   - string:
+    #       name: app_file
+    #       default: app_script.sh
+    #       description: |
+    #         The name of the application file to be called
+      - string:
+          name: app_build_branch
+          default: {{build_branch}}
+          description: |
+            The branch of application repository for Build job
+
+    sandbox: true
+    pipeline-scm:
+      scm:
+        - git:
+            url: {{git_url}}
+            branches:
+              - origin/${app_build_branch}
+      script-path: ./jjb/jenkinsfiles/{{file_jf_app}}
+      lightweight-checkout: true

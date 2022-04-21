@@ -1,25 +1,15 @@
 - job:
     name: job1
-    project-type: pipeline
+    project-type: freestyle
     defaults: global
     parameters:
       - string:
-          name: app_name
-          default: app_test
+          name: test_var
+          default: World
           description: |
-            Name of repository for application
-      - string:
-          name: app_file
-          default: app_script.sh
-          description: |
-            The name of the application file to be called
+            test var
 
-    sandbox: true
-    pipeline-scm:
-      scm:
-        - git:
-            url: https://github.com/ch1pp00/jen_test.git
-            branches:
-              - origin/main
-      script-path: Jenkinsfile
-      lightweight-checkout: true
+    builders:
+      - shell: |
+          echo "${test_var}"
+          echo "Hello ${test_var}"

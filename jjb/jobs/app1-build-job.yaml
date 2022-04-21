@@ -1,0 +1,30 @@
+- job:
+    name: app1_build
+    project-type: pipeline
+    defaults: global
+    parameters:
+    #   - string:
+    #       name: app_name
+    #       default: app_test
+    #       description: |
+    #         Name of repository for application
+    #   - string:
+    #       name: app_file
+    #       default: app_script.sh
+    #       description: |
+    #         The name of the application file to be called
+      - string:
+          name: app_build_branch
+          default: develop
+          description: |
+            The branch of application repository for Build job
+
+    sandbox: true
+    pipeline-scm:
+      scm:
+        - git:
+            url: https://github.com/ch1pp00/app_test.git
+            branches:
+              - origin/${app_build_branch}
+      script-path: ./jjb/jenkinsfiles/../jenkinsfiles/Jenkinsfile_app1_build
+      lightweight-checkout: true

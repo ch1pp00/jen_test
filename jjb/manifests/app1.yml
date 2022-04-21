@@ -1,0 +1,7 @@
+app_name: app1
+git:
+    git_url: https://github.com/ch1pp00/app_test.git
+    build_branch: develop
+    hotfix_branch: hotfix
+    # promote_branch:  # If the line is commented out, the build_branch will be used for promote branch
+app_file: app_script.sh
