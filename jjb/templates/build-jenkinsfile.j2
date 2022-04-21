@@ -33,7 +33,7 @@ pipeline {
         stage('Build') {
             steps {
                 dir("{{app_name}}") {
-                    git branch: "{{build_branch}}",
+                    git branch: "${build_branch}",
                         // credentialsId: 'token from Jenkins key manager'
                         url: "{{git_url}}"
                 }
